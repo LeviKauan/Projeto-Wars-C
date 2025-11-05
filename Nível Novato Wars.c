@@ -1,45 +1,49 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> // necessário para system()
 
-// Definição da struct Territorio
-// Cada território possui um nome, cor do exército e quantidade de tropas
-typedef struct {
+struct Territorio {
     char nome[30];
     char cor[10];
     int tropas;
-} Territorio;
+};
 
 int main() {
-    // Declaração de um vetor de 5 territórios
-    Territorio territorios[5];
+    struct Territorio territorios[5];
+    int i;
 
     printf("=== Cadastro de Territorios ===\n");
 
-    // Laço para cadastrar os 5 territórios
-    for (int i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) {
         printf("\nCadastro do Territorio %d:\n", i + 1);
 
-        // Entrada do nome do território
+        // Lê o nome do território
         printf("Digite o nome do territorio: ");
-        scanf(" %[^\n]", territorios[i].nome); // Lê até a quebra de linha
+        fgets(territorios[i].nome, sizeof(territorios[i].nome), stdin);
+        territorios[i].nome[strcspn(territorios[i].nome, "\n")] = '\0';
 
-        // Entrada da cor do exército
+        // Lê a cor do exército
         printf("Digite a cor do exercito: ");
-        scanf("%s", territorios[i].cor); // Lê string sem espaços
+        fgets(territorios[i].cor, sizeof(territorios[i].cor), stdin);
+        territorios[i].cor[strcspn(territorios[i].cor, "\n")] = '\0';
 
-        // Entrada da quantidade de tropas
+        // Lê o número de tropas
         printf("Digite o numero de tropas: ");
         scanf("%d", &territorios[i].tropas);
+        while (getchar() != '\n'); // limpa o ENTER do buffer
     }
 
-    // Exibição dos dados cadastrados
+    // Exibe os territórios cadastrados
     printf("\n=== Dados dos Territorios ===\n");
-    for (int i = 0; i < 5; i++) {
-        printf("\nTerritorio %d:\n", i + 1);
+    for (i = 0; i < 5; i++) {
+        printf("\nTerritorio %d\n", i + 1);
         printf("Nome: %s\n", territorios[i].nome);
         printf("Cor do exercito: %s\n", territorios[i].cor);
         printf("Numero de tropas: %d\n", territorios[i].tropas);
     }
+
+    // Pausa final para que o terminal não feche
+    system("pause"); // funciona no Windows
 
     return 0;
 }
